@@ -1,11 +1,15 @@
 import csv
 import os
+import pandas as pd
 
+# Data csv
 data_login = "DataLogin.csv"
+data_menu_makanan = "MenuMakanan.csv"
 
 def clear():
     os.system('cls')
 
+# Fitur login
 def login():
     clear()
     while True:
@@ -61,6 +65,62 @@ def login():
                     clear()
                     print("Login gagal, silahkan ulangi")
                     print("Masuk sebagai",role)
+
+
+# 3. Fitur cek menu makanan
+def cek_menu_makanan():
+    clear()
+    menu_makanan = pd.read_csv(data_menu_makanan)
+    menu_makanan.index = menu_makanan.index + 1
+    print(menu_makanan)
+    while True:
+        btn = input("\nketik 'y' untuk kembali ke menu : ")
+        if btn == "y":
+            clear()
+            break
+        else:
+            clear()
+            menu_makanan = pd.read_csv(data_menu_makanan)
+            menu_makanan.index = menu_makanan.index + 1
+            print(menu_makanan)
+
+# 4. Fitur Tambah Menu
+def tambah_menu():
+    clear()
+    print("=== Tambah Menu Baru ===")
+
+    try:
+        with open(data_menu_makanan, mode="r") as file:
+            reader = csv.reader(file)
+            data = list(reader)
+            if len(data) > 1:
+                last_id = int(data[-1][0])
+            else:
+                last_id = 0
+    except FileNotFoundError:
+        print(f"File {data_menu_makanan} tidak ditemukan. Membuat file baru...")
+        last_id = 0
+    
+    new_id = str(last_id + 1).zfill(2)
+
+    nama_menu = input("Masukkan nama menu: ")
+    harga_menu = input("Masukkan harga menu: ")
+
+    try:
+        harga_menu = float(harga_menu)
+    except ValueError:
+        clear()
+        print("Harga menu harus berupa angka!")
+        return
+    
+    with open(data_menu_makanan, mode="a", newline='') as file:
+        writer = csv.writer(file)
+        writer.writerow([new_id, nama_menu, harga_menu])
+    
+    clear()
+    print(f"Menu '{nama_menu}' berhasil ditambahkan dengan ID {new_id} dan harga {harga_menu}.\n")
+
+
                     
 def opsi_admin():
     print (' ')
@@ -91,7 +151,37 @@ def program_admin():
                 if pilihan == "1" or pilihan == "2" or pilihan == "3" or pilihan == "4" or pilihan == "5" or pilihan == "6" or pilihan == "7":
                     clear()
                     break
+
         if pilihan == "1" or pilihan == "2" or pilihan == "3" or pilihan == "4" or pilihan == "5" or pilihan == "6" or pilihan == "7":
+            if pilihan == "3":
+                clear()
+                cek_menu_makanan()
+
+            if pilihan == "4":
+                clear()
+                while True:
+                    print (' ')
+                    print (('=') * 50)
+                    print (' ')
+                    print('1. Transaksi')
+                    print('2. Kembali ke menu utama')
+                    print (' ')
+                    print (('=') * 50)
+                    print (' ')
+                    opsi_fitur = input('Pilih opsi yang anda inginkan : ')
+                    if opsi_fitur == '1' or opsi_fitur == '2':
+                        clear()
+                        break
+                    else: 
+                        clear()
+                        print('Opsi tidak tersedia')
+                        continue
+                if opsi_fitur == '1':
+                    tambah_menu()
+                elif opsi_fitur == '2':
+                    continue
+
+            
             if pilihan == "7":
                 clear()
                 print('1. Login')
@@ -143,5 +233,6 @@ def program_user():
                     clear()
                     break
                 else:
-                    continue   
+                    continue  
+
 login()
