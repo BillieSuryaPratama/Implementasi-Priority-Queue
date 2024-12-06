@@ -85,6 +85,7 @@ def cek_menu_makanan():
             print(menu_makanan)
 
 # 4. Fitur Tambah Menu
+# Comment
 def tambah_menu():
     clear()
     print("=== Tambah Menu Baru ===")
