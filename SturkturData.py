@@ -122,6 +122,81 @@ def tambah_menu():
     print(f"Menu '{nama_menu}' berhasil ditambahkan dengan ID {new_id} dan harga {harga_menu}.\n")
 
 
+# 5. Fitur update menu
+def update_menu():
+    clear()
+    print("=== Update Menu Makanan ===")
+
+    menu_makanan = []
+    with open(data_menu_makanan, mode="r") as file:
+        reader = csv.reader(file)
+        menu_makanan = list(reader)
+    
+    if len(menu_makanan) <= 1:
+        print("Tidak ada menu untuk diupdate.")
+        return
+
+    print("Daftar Menu Makanan:")
+    for i, menu in enumerate(menu_makanan):
+        if i == 0:  
+            print(f"{menu[0]} - {menu[1]} - {menu[2]}")  
+            continue
+        print(f"{menu[0]} - {menu[1]} - Rp {menu[2]}")
+    
+    print("\nMasukkan ID menu yang ingin diupdate.")
+    id_menu = input("ID Menu: ")
+    menu_ditemukan = False  
+
+    for i, menu in enumerate(menu_makanan):
+        if i == 0: 
+            continue
+        if menu[0] == id_menu:
+            menu_ditemukan = True  
+            print(f"Menu ditemukan: {menu[1]} - Rp {menu[2]}")
+            print("1. Update Nama")
+            print("2. Update Harga")
+            print("3. Update Nama dan Harga")
+            pilihan = input("Pilih opsi update (1/2/3): ")
+
+            if pilihan == "1":
+                # Update nama menu
+                new_name = input("Masukkan nama baru: ")
+                menu[1] = new_name
+                print(f"Nama menu berhasil diupdate menjadi: {new_name}")
+            elif pilihan == "2":
+                # Update harga menu
+                new_price = input("Masukkan harga baru: ")
+                try:
+                    menu[2] = str(float(new_price))
+                    print(f"Harga menu berhasil diupdate menjadi: Rp {new_price}")
+                except ValueError:
+                    print("Harga harus berupa angka!")
+                    return
+            elif pilihan == "3":
+                # Update nama dan harga menu
+                new_name = input("Masukkan nama baru: ")
+                new_price = input("Masukkan harga baru: ")
+                try:
+                    menu[1] = new_name
+                    menu[2] = str(float(new_price))
+                    print(f"Nama menu berhasil diupdate menjadi: {new_name}")
+                    print(f"Harga menu berhasil diupdate menjadi: Rp {new_price}")
+                except ValueError:
+                    print("Harga harus berupa angka!")
+                    return
+            else:
+                print("Opsi tidak valid!")
+                return
+
+            with open(data_menu_makanan, mode="w", newline='') as file:
+                writer = csv.writer(file)
+                writer.writerows(menu_makanan)
+            print("\nMenu berhasil diupdate!")
+            break
+
+    if not menu_ditemukan:
+        print("\nID menu tidak ditemukan! Pastikan Anda memasukkan ID yang benar.\n")
+
                     
 def opsi_admin():
     print (' ')
@@ -181,6 +256,12 @@ def program_admin():
                     tambah_menu()
                 elif opsi_fitur == '2':
                     continue
+
+            if pilihan == "5":  
+                clear()
+                update_menu()
+
+
 
             
             if pilihan == "7":
