@@ -196,6 +196,57 @@ def update_menu():
     if not menu_ditemukan:
         print("\nID menu tidak ditemukan! Pastikan Anda memasukkan ID yang benar.\n")
 
+
+# 6. Fitur hapus menu
+def hapus_menu():
+    clear()
+    print("=== Hapus Menu Makanan ===")
+
+    try:
+        with open(data_menu_makanan, mode="r") as file:
+            reader = csv.reader(file)
+            menu_makanan = list(reader)
+    except FileNotFoundError:
+        print(f"File {data_menu_makanan} tidak ditemukan.")
+        return
+
+    if len(menu_makanan) <= 1:
+        print("Tidak ada menu untuk dihapus.")
+        return
+
+    print("Daftar Menu Makanan:")
+    for i, menu in enumerate(menu_makanan):
+        if i == 0:  
+            print(f"{menu[0]} - {menu[1]} - {menu[2]}")
+            continue
+        print(f"{menu[0]} - {menu[1]} - Rp {menu[2]}")
+
+    print("\nMasukkan ID menu yang ingin dihapus.")
+    id_menu = input("ID Menu: ")
+    menu_ditemukan = False
+
+    for i, menu in enumerate(menu_makanan):
+        if i == 0: 
+            continue
+        if menu[0] == id_menu:
+            menu_ditemukan = True
+            print(f"Menu ditemukan: {menu[1]} - Rp {menu[2]}")
+            konfirmasi = input("Apakah Anda yakin ingin menghapus menu ini? (y/n): ").lower()
+            if konfirmasi == "y":
+                menu_makanan.pop(i) 
+                print(f"Menu dengan ID {id_menu} berhasil dihapus.")
+            else:
+                print("Penghapusan dibatalkan.")
+            break
+
+    if menu_ditemukan:
+        with open(data_menu_makanan, mode="w", newline='') as file:
+            writer = csv.writer(file)
+            writer.writerows(menu_makanan)  
+        print("\nMenu Makanan Berhasil dihapus.")
+    else:
+        print("\nID menu tidak ditemukan! Pastikan Anda memasukkan ID yang benar.\n")
+
                     
 def opsi_admin():
     print (' ')
@@ -260,7 +311,9 @@ def program_admin():
                 clear()
                 update_menu()
 
-
+            if pilihan == "6":
+                clear()
+                hapus_menu()
 
             
             if pilihan == "7":
