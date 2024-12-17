@@ -9,6 +9,9 @@ data_menu_makanan = "MenuMakanan.csv"
 def clear():
     os.system('cls')
 
+OpsiAdmin = ["1", "2", "3", "4", "5", "6"]
+OpsiUser = ["1", "2", "3", "4"]
+
 # Fitur login
 def login():
     clear()
@@ -253,12 +256,11 @@ def opsi_admin():
     print (('=') * 50)
     print (' ')
     print("1. Antrian Pesanan ")
-    print("2. Antrian Pengiriman ")
-    print("3. Menu Makanan ")
-    print("4. Tambah Menu ")
-    print("5. Update Menu ")
-    print("6. Hapus Menu ")
-    print("7. Log Out")
+    print("2. Cek Menu Makanan ")
+    print("3. Tambah Menu ")
+    print("4. Update Menu ")
+    print("5. Hapus Menu ")
+    print("6. Log Out")
     print (' ')
     print (('=') * 50)
     print (' ')
@@ -268,28 +270,32 @@ def program_admin():
     while True :
         opsi_admin()
         pilihan = input("Pilih opsi yang anda inginkan : ")
-        if pilihan != "1" and pilihan != "2" and pilihan != "3" and pilihan != "4" and pilihan != "5" and pilihan != "6" and pilihan != "7":
+        if pilihan not in OpsiAdmin:
             while True :
                 clear()
                 print("Opsi tidak tersedia, silakan pilih opsi lagi !")
                 opsi_admin()
                 pilihan = input("Pilih opsi yang anda inginkan : ")
-                if pilihan == "1" or pilihan == "2" or pilihan == "3" or pilihan == "4" or pilihan == "5" or pilihan == "6" or pilihan == "7":
+                if pilihan in OpsiAdmin:
                     clear()
                     break
 
-        if pilihan == "1" or pilihan == "2" or pilihan == "3" or pilihan == "4" or pilihan == "5" or pilihan == "6" or pilihan == "7":
-            if pilihan == "3":
+        if pilihan in OpsiAdmin:
+
+            if pilihan == "1":
+                pass
+
+            if pilihan == "2":
                 clear()
                 cek_menu_makanan()
 
-            if pilihan == "4":
+            if pilihan == "3":
                 clear()
                 while True:
                     print (' ')
                     print (('=') * 50)
                     print (' ')
-                    print('1. Transaksi')
+                    print('1. Lanjutkan')
                     print('2. Kembali ke menu utama')
                     print (' ')
                     print (('=') * 50)
@@ -307,16 +313,16 @@ def program_admin():
                 elif opsi_fitur == '2':
                     continue
 
-            if pilihan == "5":  
+            if pilihan == "4":  
                 clear()
                 update_menu()
 
-            if pilihan == "6":
+            if pilihan == "5":
                 clear()
                 hapus_menu()
 
             
-            if pilihan == "7":
+            if pilihan == "6":
                 clear()
                 print('1. Login')
                 print('2. Keluar')
@@ -339,21 +345,31 @@ def program_user():
         print (('=') * 50)
         print (' ')
         print("1. Pesan Makanan ")
-        print("2. Menu Mkanan ")
+        print("2. Cek Menu Makanan ")
         print("3. Pemesanan Terakhir ")
         print("4. Log Out ")
         print (' ')
         print (('=') * 50)
         print (' ')
         pilihan = input("Pilih opsi yang anda inginkan : ")
-        if pilihan != "1" and pilihan != "2" and pilihan != "3" and pilihan != "4" :
+        if pilihan not in OpsiUser:
             while True :
                 print("Opsi tidak tersedia, silakan pilih opsi lagi !")
                 pilihan = input("Pilih opsi yang anda inginkan : ")
-                if pilihan == "1" or pilihan == "2" or pilihan == "3" or pilihan == "4":
+                if pilihan in OpsiUser:
                     clear()
                     break
-        if pilihan == "1" or pilihan == "2" or pilihan == "3" or pilihan == "4":
+        if pilihan in OpsiUser:
+            if pilihan == "1":
+                pass
+
+            if pilihan == "2":
+                clear()
+                cek_menu_makanan()
+
+            if pilihan == "3":
+                pass
+
             if pilihan == "4":
                 clear()
                 print('1. Login')
