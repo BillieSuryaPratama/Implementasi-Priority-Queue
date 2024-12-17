@@ -1,3 +1,5 @@
 role,username,password
 admin,p,p
+admin,admin,admin
 user,b,b
+user,user,user
