@@ -15,21 +15,23 @@ class PriorityQueue:
     def __init__(self):
         self.priority_queue = []
 
-    def enqueue(self, element, priority):
-        self.priority_queue.append((priority, element))
+    def enqueue(self, order_id, order_items, priority):
+        self.priority_queue.append((priority, (order_id, order_items)))
         self.priority_queue.sort(key=lambda x: x[0])
 
     def dequeue(self):
         if self.is_empty():
             print("Priority Queue is empty")
             return
-        return self.priority_queue.pop(0)[1]
+        priority, (order_id, order_items) = self.priority_queue.pop(0)
+        return order_id, order_items
 
     def peek(self):
         if self.is_empty():
             print("Priority Queue is empty")
             return -1
-        return self.priority_queue[0][1]
+        priority, (order_id, order_items) = self.priority_queue[0]
+        return order_id, order_items
 
     def size(self):
         return len(self.priority_queue)
