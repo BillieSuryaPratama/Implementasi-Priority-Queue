@@ -3,16 +3,45 @@ import os
 import pandas as pd
 
 # Data csv
-data_login = "DataLogin.csv"
-data_menu_makanan = "MenuMakanan.csv"
+Login = "DataLogin.csv"
+MenuMakanan = "MenuMakanan.csv"
 
-def clear():
-    os.system('cls')
-
+# Opsi Main Menu
 OpsiAdmin = ["1", "2", "3", "4", "5", "6"]
 OpsiUser = ["1", "2", "3", "4"]
 
-# Fitur login
+# Kumpulan Function untuk Class Priority Queue
+class PriorityQueue:
+    def __init__(self):
+        self.priority_queue = []
+
+    def enqueue(self, element, priority):
+        self.priority_queue.append((priority, element))
+        self.priority_queue.sort(key=lambda x: x[0])
+
+    def dequeue(self):
+        if self.is_empty():
+            print("Priority Queue is empty")
+            return
+        return self.priority_queue.pop(0)[1]
+
+    def peek(self):
+        if self.is_empty():
+            print("Priority Queue is empty")
+            return -1
+        return self.priority_queue[0][1]
+
+    def size(self):
+        return len(self.priority_queue)
+
+    def is_empty(self):
+        return len(self.priority_queue) == 0
+
+# Function Clear Terminal
+def clear():
+    os.system('cls')
+
+# Function Login
 def login():
     clear()
     while True:
@@ -31,7 +60,7 @@ def login():
             username = username.lower()
             password = input("masukan password: ")
             password = password.lower()
-            with open(data_login,mode="r") as read:
+            with open(Login,mode="r") as read:
                 reader = csv.reader(read)   
                 login_berhasil = False
                 for i in reader:
@@ -52,7 +81,7 @@ def login():
         while True:
             username = input("masukan username: ")
             password = input("masukan password: ")
-            with open(data_login,mode="r") as read:
+            with open(Login,mode="r") as read:
                 reader = csv.reader(read)   
                 login_berhasil = False
                 for i in reader:
@@ -70,10 +99,10 @@ def login():
                     print("Masuk sebagai",role)
 
 
-# 3. Fitur cek menu makanan
+# Function Cek Menu Makanan
 def cek_menu_makanan():
     clear()
-    menu_makanan = pd.read_csv(data_menu_makanan)
+    menu_makanan = pd.read_csv(MenuMakanan)
     menu_makanan.index = menu_makanan.index + 1
     print(menu_makanan)
     while True:
@@ -83,17 +112,17 @@ def cek_menu_makanan():
             break
         else:
             clear()
-            menu_makanan = pd.read_csv(data_menu_makanan)
+            menu_makanan = pd.read_csv(MenuMakanan)
             menu_makanan.index = menu_makanan.index + 1
             print(menu_makanan)
 
-# 4. Fitur Tambah Menu
+# Function Tambah Menu
 def tambah_menu():
     clear()
     print("=== Tambah Menu Baru ===")
 
     try:
-        with open(data_menu_makanan, mode="r") as file:
+        with open(MenuMakanan, mode="r") as file:
             reader = csv.reader(file)
             data = list(reader)
             if len(data) > 1:
@@ -101,7 +130,7 @@ def tambah_menu():
             else:
                 last_id = 0
     except FileNotFoundError:
-        print(f"File {data_menu_makanan} tidak ditemukan. Membuat file baru...")
+        print(f"File {MenuMakanan} tidak ditemukan. Membuat file baru...")
         last_id = 0
     
     new_id = str(last_id + 1).zfill(2)
@@ -116,7 +145,7 @@ def tambah_menu():
         print("Harga menu harus berupa angka!")
         return
     
-    with open(data_menu_makanan, mode="a", newline='') as file:
+    with open(MenuMakanan, mode="a", newline='') as file:
         writer = csv.writer(file)
         writer.writerow([new_id, nama_menu, harga_menu])
     
@@ -124,13 +153,13 @@ def tambah_menu():
     print(f"Menu '{nama_menu}' berhasil ditambahkan dengan ID {new_id} dan harga {harga_menu}.\n")
 
 
-# 5. Fitur update menu
+# Function Update Menu
 def update_menu():
     clear()
     print("=== Update Menu Makanan ===")
 
     menu_makanan = []
-    with open(data_menu_makanan, mode="r") as file:
+    with open(MenuMakanan, mode="r") as file:
         reader = csv.reader(file)
         menu_makanan = list(reader)
     
@@ -190,7 +219,7 @@ def update_menu():
                 print("Opsi tidak valid!")
                 return
 
-            with open(data_menu_makanan, mode="w", newline='') as file:
+            with open(MenuMakanan, mode="w", newline='') as file:
                 writer = csv.writer(file)
                 writer.writerows(menu_makanan)
             print("\nMenu berhasil diupdate!")
@@ -200,17 +229,17 @@ def update_menu():
         print("\nID menu tidak ditemukan! Pastikan Anda memasukkan ID yang benar.\n")
 
 
-# 6. Fitur hapus menu
+# Function hapus Menu
 def hapus_menu():
     clear()
     print("=== Hapus Menu Makanan ===")
 
     try:
-        with open(data_menu_makanan, mode="r") as file:
+        with open(MenuMakanan, mode="r") as file:
             reader = csv.reader(file)
             menu_makanan = list(reader)
     except FileNotFoundError:
-        print(f"File {data_menu_makanan} tidak ditemukan.")
+        print(f"File {MenuMakanan} tidak ditemukan.")
         return
 
     if len(menu_makanan) <= 1:
@@ -243,15 +272,15 @@ def hapus_menu():
             break
 
     if menu_ditemukan:
-        with open(data_menu_makanan, mode="w", newline='') as file:
+        with open(MenuMakanan, mode="w", newline='') as file:
             writer = csv.writer(file)
             writer.writerows(menu_makanan)  
         print("\nMenu Makanan Berhasil dihapus.")
     else:
         print("\nID menu tidak ditemukan! Pastikan Anda memasukkan ID yang benar.\n")
 
-                    
-def opsi_admin():
+# Function UI Main Menu Admin     
+def MainMenuAdmin():
     print (' ')
     print (('=') * 50)
     print (' ')
@@ -265,16 +294,30 @@ def opsi_admin():
     print (('=') * 50)
     print (' ')
 
+# Function UI Main Menu User   
+def MainMenuUser():
+    print (' ')
+    print (('=') * 50)
+    print (' ')
+    print("1. Pesan Makanan ")
+    print("2. Cek Menu Makanan ")
+    print("3. Pemesanan Terakhir ")
+    print("4. Log Out ")
+    print (' ')
+    print (('=') * 50)
+    print (' ')
+
+# Function Program Admin
 def program_admin():
     print("SELAMAT DATANG ADMIN")
     while True :
-        opsi_admin()
+        MainMenuAdmin()
         pilihan = input("Pilih opsi yang anda inginkan : ")
         if pilihan not in OpsiAdmin:
             while True :
                 clear()
                 print("Opsi tidak tersedia, silakan pilih opsi lagi !")
-                opsi_admin()
+                MainMenuAdmin()
                 pilihan = input("Pilih opsi yang anda inginkan : ")
                 if pilihan in OpsiAdmin:
                     clear()
@@ -337,24 +380,17 @@ def program_admin():
                 else:
                     continue
         
-        
+# Function Main Menu User    
 def program_user():
     print("SELAMAT DATANG USER")
     while True:
-        print (' ')
-        print (('=') * 50)
-        print (' ')
-        print("1. Pesan Makanan ")
-        print("2. Cek Menu Makanan ")
-        print("3. Pemesanan Terakhir ")
-        print("4. Log Out ")
-        print (' ')
-        print (('=') * 50)
-        print (' ')
+        MainMenuUser()
         pilihan = input("Pilih opsi yang anda inginkan : ")
         if pilihan not in OpsiUser:
             while True :
+                clear()
                 print("Opsi tidak tersedia, silakan pilih opsi lagi !")
+                MainMenuUser()
                 pilihan = input("Pilih opsi yang anda inginkan : ")
                 if pilihan in OpsiUser:
                     clear()
@@ -385,4 +421,5 @@ def program_user():
                 else:
                     continue  
 
+Antrian = PriorityQueue()
 login()
