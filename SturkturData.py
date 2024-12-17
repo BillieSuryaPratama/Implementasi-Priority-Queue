@@ -16,8 +16,12 @@ OpsiUser = ["1", "2", "3", "4"]
 class PriorityQueue:
     def __init__(self):
         self.ListPesanan = []
+        self.countPesanan = 1
 
-    def enqueue(self, IDPesanan, MakananPesanan, Prioritas):
+    def enqueue(self, MakananPesanan, Prioritas):
+        Angka = str(self.countPesanan)
+        self.countPesanan += 1
+        IDPesanan = "Pesanan " + Angka
         self.ListPesanan.append((Prioritas, (IDPesanan, MakananPesanan)))
         self.ListPesanan.sort(key=lambda x: x[0])
 
@@ -52,9 +56,6 @@ class PriorityQueue:
 
 # Inisialisasi Priority Queue
 Antrian = PriorityQueue()
-
-# Inisialisasi Variabel Transaksi
-AngkaIDPesanan = 1
 
 # Function Clear Terminal
 def clear():
@@ -487,6 +488,7 @@ def program_user():
                 clear()
                 df = pd.read_csv(MenuMakanan)
                 pesanan = []
+                EksekusiAntrian = []
                 print(df.to_string(index=False))
                 print("\nPilih Opsi Fitur (Masukkan angka sesuai pilihan)")
                 while True:
@@ -496,7 +498,6 @@ def program_user():
                     input_Transaksi = input("Input: ")
                     if input_Transaksi == "1":
                         while True:
-
                             clear()
                             print(df.to_string(index=False))
                             MenuPilihan = int(input("\nPilih ID makanan yang ingin anda pesan (Masukkan ID): "))
@@ -518,18 +519,121 @@ def program_user():
                                 break
                                 
                     elif input_Transaksi == "2":
-                        pass
+                        if len(pesanan) == 0:
+                            clear()
+                            print(df.to_string(index=False))
+                            print("")
+                            print("Belum ada makanan/minuman yang dipesan")
+                            print("\nPilih Opsi Fitur (Masukkan angka sesuai pilihan)")
+                        else:
+                            while True:
+                                clear()
+                                print("Pesanan Saat ini:")
+                                print(pesanan)
+                                print("\nPilih Opsi Pelayanan:")
+                                print("1. Pelayanan Reguler")   
+                                print("2. Pelayanan Ekspres (Tambahan biaya Rp.5000)")
+                                print("3. Kembali\n")
+                                input_Pembayaran = input("Input: ")
+                                if input_Pembayaran == "1":
+                                    clear()
+                                    Prioritas = 2
+                                    Harga = 0
+                                    print("Pesanan Saat ini: ")
+                                    print(pesanan)
+                                    for items in pesanan:
+                                        Harga += items[1] * items[2]
+                                    print(f"\nBiaya Pembayaran: {Harga}")
+                                    print("\nKonfirmasi Pembayaran:")
+                                    print("1. Lanjutkan")
+                                    print("2. Batal\n")
+                                    input_Reguler = input("Input: ")
+                                    if input_Reguler == "1":
+                                        clear()
+                                        for items in pesanan:
+                                            NamaMakanan = items[0]
+                                            KuantitasMakanan = items[2]
+                                            KuantitasMakanan = int(KuantitasMakanan)
+                                            EksekusiAntrian.append((NamaMakanan, KuantitasMakanan))
+                                        Antrian.enqueue(EksekusiAntrian, Prioritas)
+                                        for items in pesanan:
+                                            print(items)
+                                        pesanan = []
+                                        EksekusiAntrian = []
+                                        inputPesananBerhasil = input("\nTerimakasih telah memesan, Pesananmu akan segera diproses")
+                                        clear()
+                                        break
+                                    if input_Reguler == "2":
+                                        clear()
+                                        print(df.to_string(index=False))
+                                        print("")
+                                        print("Pesanan Saat ini:")
+                                        print(pesanan)
+                                        print("\nPilih Opsi Fitur (Masukkan angka sesuai pilihan)")
+                                        break
+                                if input_Pembayaran == "2":
+                                    clear()
+                                    Prioritas = 1
+                                    Harga = 5000
+                                    print("Pesanan Saat ini: ")
+                                    print(pesanan)
+                                    for items in pesanan:
+                                        Harga += items[1] * items[2]
+                                    print(f"\nBiaya Pembayaran: {Harga}")
+                                    print("\nKonfirmasi Pembayaran:")
+                                    print("1. Lanjutkan")
+                                    print("2. Batal\n")
+                                    input_Ekspres = input("Input: ")
+                                    if input_Ekspres == "1":
+                                        clear()
+                                        for items in pesanan:
+                                            NamaMakanan = items[0]
+                                            KuantitasMakanan = items[2]
+                                            KuantitasMakanan = int(KuantitasMakanan)
+                                            EksekusiAntrian.append((NamaMakanan, KuantitasMakanan))
+                                        Antrian.enqueue(EksekusiAntrian, Prioritas)
+                                        for items in pesanan:
+                                            print(items)
+                                        pesanan = []
+                                        EksekusiAntrian = []
+                                        inputPesananBerhasil = input("\nTerimakasih telah memesan, Pesananmu akan segera diproses")
+                                        clear()
+                                        break
+                                    if input_Ekspres == "2":
+                                        clear()
+                                        print(df.to_string(index=False))
+                                        print("")
+                                        print("Pesanan Saat ini:")
+                                        print(pesanan)
+                                        print("\nPilih Opsi Fitur (Masukkan angka sesuai pilihan)")
+                                        break
+                                if input_Pembayaran == "3":
+                                    clear()
+                                    print(df.to_string(index=False))
+                                    print("")
+                                    print("Pesanan Saat ini:")
+                                    print(pesanan)
+                                    print("\nPilih Opsi Fitur (Masukkan angka sesuai pilihan)")
+                                    break
 
                     elif input_Transaksi == "3":
                         clear()
                         pesanan = []
                         break
-                    else: 
-                        clear()
-                        df = pd.read_csv(MenuMakanan)
-                        print (df.to_string(index=False))
-                        print("\nInput Salah")
-                        print("Pilih Opsi Fitur (Masukkan angka sesuai pilihan)")
+                    else:
+                        if len(pesanan) == 0:
+                            clear()
+                            df = pd.read_csv(MenuMakanan)
+                            print (df.to_string(index=False))
+                            print("\nInput Salah\n")
+                            print("Pilih Opsi Fitur (Masukkan angka sesuai pilihan)")
+                        else:
+                            clear()
+                            print(df.to_string(index=False))
+                            print("")
+                            print("Pesanan Saat ini:")
+                            print(pesanan)
+                            print("\nPilih Opsi Fitur (Masukkan angka sesuai pilihan)")
 
             if pilihan == "2":
                 clear()

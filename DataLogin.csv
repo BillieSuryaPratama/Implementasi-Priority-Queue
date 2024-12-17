@@ -1,5 +1,8 @@
 role,username,password
-admin,p,p
 admin,admin,admin
-user,b,b
 user,user,user
+user,billie,billie123
+user,leo,leo123
+user,bagas,bagas123
+user,sultan,sultan123
+user,rafli,rafli123
