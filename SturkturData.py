@@ -21,23 +21,29 @@ class PriorityQueue:
 
     def dequeue(self):
         if self.is_empty():
-            print("Priority Queue is empty")
+            print("Tidak ada Pesanan")
             return
         priority, (order_id, order_items) = self.priority_queue.pop(0)
         return order_id, order_items
 
     def peek(self):
         if self.is_empty():
-            print("Priority Queue is empty")
+            print("Tidak ada Pesanan")
             return -1
         priority, (order_id, order_items) = self.priority_queue[0]
         return order_id, order_items
 
-    def size(self):
-        return len(self.priority_queue)
-
     def is_empty(self):
         return len(self.priority_queue) == 0
+    
+    def show_queue(self):
+        if self.is_empty():
+            print("Tidak ada Pesanan")
+            return
+        print("List Pesanan:")
+        for idx, (priority, (order_id, order_items)) in enumerate(self.priority_queue):
+            print(f"{idx+1}. Priority: {priority}, Order ID: {order_id}, Items: {order_items}")
+
 
 # Function Clear Terminal
 def clear():
@@ -360,11 +366,51 @@ def program_admin():
 
             if pilihan == "4":  
                 clear()
-                update_menu()
+                while True:
+                    print (' ')
+                    print (('=') * 50)
+                    print (' ')
+                    print('1. Lanjutkan')
+                    print('2. Kembali ke menu utama')
+                    print (' ')
+                    print (('=') * 50)
+                    print (' ')
+                    opsi_fitur = input('Pilih opsi yang anda inginkan : ')
+                    if opsi_fitur == '1' or opsi_fitur == '2':
+                        clear()
+                        break
+                    else: 
+                        clear()
+                        print('Opsi tidak tersedia')
+                        continue
+                if opsi_fitur == '1':
+                    update_menu()
+                elif opsi_fitur == '2':
+                    continue
 
             if pilihan == "5":
                 clear()
-                hapus_menu()
+                while True:
+                    print (' ')
+                    print (('=') * 50)
+                    print (' ')
+                    print('1. Lanjutkan')
+                    print('2. Kembali ke menu utama')
+                    print (' ')
+                    print (('=') * 50)
+                    print (' ')
+                    opsi_fitur = input('Pilih opsi yang anda inginkan : ')
+                    if opsi_fitur == '1' or opsi_fitur == '2':
+                        clear()
+                        break
+                    else: 
+                        clear()
+                        print('Opsi tidak tersedia')
+                        continue
+                if opsi_fitur == '1':
+                    hapus_menu()
+                elif opsi_fitur == '2':
+                    continue
 
             
             if pilihan == "6":
