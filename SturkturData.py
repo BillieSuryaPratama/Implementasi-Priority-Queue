@@ -495,8 +495,28 @@ def program_user():
                     print("3. Kembali\n")
                     input_Transaksi = input("Input: ")
                     if input_Transaksi == "1":
-                        pass
-                        
+                        while True:
+
+                            clear()
+                            print(df.to_string(index=False))
+                            MenuPilihan = int(input("\nPilih ID makanan yang ingin anda pesan (Masukkan ID): "))
+                            if MenuPilihan > len(df):
+                                pass
+                            else:
+                                MenuPilihan = MenuPilihan - 1
+                                Kuantitas = int(input("Masukkan Kuantitas Pesanan: "))
+                                Data = df.iloc[MenuPilihan]
+                                RincianNama = Data.iloc[1]
+                                RincianHarga = Data.iloc[2]
+                                pesanan.append([RincianNama, RincianHarga, Kuantitas])
+                                clear()
+                                print(df.to_string(index=False))
+                                print("")
+                                print("Pesanan Saat ini:")
+                                print(pesanan)
+                                print("\nPilih Opsi Fitur (Masukkan angka sesuai pilihan)")
+                                break
+                                
                     elif input_Transaksi == "2":
                         pass
 
