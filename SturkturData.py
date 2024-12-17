@@ -1,10 +1,12 @@
 import csv
 import os
 import pandas as pd
+import datetime as dt
 
 # Data csv
 Login = "DataLogin.csv"
 MenuMakanan = "MenuMakanan.csv"
+Riwayat = "Riwayat.csv"
 
 # Opsi Main Menu
 OpsiAdmin = ["1", "2", "3", "4", "5", "6"]
@@ -13,37 +15,46 @@ OpsiUser = ["1", "2", "3", "4"]
 # Kumpulan Function untuk Class Priority Queue
 class PriorityQueue:
     def __init__(self):
-        self.priority_queue = []
+        self.ListPesanan = []
 
-    def enqueue(self, order_id, order_items, priority):
-        self.priority_queue.append((priority, (order_id, order_items)))
-        self.priority_queue.sort(key=lambda x: x[0])
+    def enqueue(self, IDPesanan, MakananPesanan, Prioritas):
+        self.ListPesanan.append((Prioritas, (IDPesanan, MakananPesanan)))
+        self.ListPesanan.sort(key=lambda x: x[0])
 
     def dequeue(self):
         if self.is_empty():
             print("Tidak ada Pesanan")
             return
-        priority, (order_id, order_items) = self.priority_queue.pop(0)
-        return order_id, order_items
+        Prioritas, (IDPesanan, MakananPesanan) = self.ListPesanan.pop(0)
+        return IDPesanan, MakananPesanan
 
     def peek(self):
         if self.is_empty():
             print("Tidak ada Pesanan")
             return -1
-        priority, (order_id, order_items) = self.priority_queue[0]
-        return order_id, order_items
+        Prioritas, (IDPesanan, MakananPesanan) = self.ListPesanan[0]
+        return IDPesanan, MakananPesanan
 
     def is_empty(self):
-        return len(self.priority_queue) == 0
+        return len(self.ListPesanan) == 0
     
     def show_queue(self):
         if self.is_empty():
             print("Tidak ada Pesanan")
             return
         print("List Pesanan:")
-        for idx, (priority, (order_id, order_items)) in enumerate(self.priority_queue):
-            print(f"{idx+1}. Priority: {priority}, Order ID: {order_id}, Items: {order_items}")
+        for idx, (Prioritas, (IDPesanan, MakananPesanan)) in enumerate(self.ListPesanan):
+            if Prioritas == 1:
+                prioritas_label = "Ekspres"
+            elif Prioritas == 2:
+                prioritas_label = "Standart"
+            print(f"{idx+1}. Prioritas: {prioritas_label}, Order ID: {IDPesanan}, Items: {MakananPesanan}")
 
+# Inisialisasi Priority Queue
+Antrian = PriorityQueue()
+
+# Inisialisasi Variabel Transaksi
+AngkaIDPesanan = 1
 
 # Function Clear Terminal
 def clear():
@@ -292,7 +303,7 @@ def MainMenuAdmin():
     print (' ')
     print (('=') * 50)
     print (' ')
-    print("1. Antrian Pesanan ")
+    print("1. Cek Pesanan ")
     print("2. Cek Menu Makanan ")
     print("3. Tambah Menu ")
     print("4. Update Menu ")
@@ -334,7 +345,35 @@ def program_admin():
         if pilihan in OpsiAdmin:
 
             if pilihan == "1":
-                pass
+                clear()
+                Antrian.show_queue()
+                print("\nPilih Opsi Fitur (Masukkan angka sesuai pilihan)")
+                while True:
+                    print("1. Selesaikan Pesanan")
+                    print("2. Kembali\n")
+                    input_Antrian = input("Input: ")
+                    if input_Antrian == "1":
+                        CekAntrian = Antrian.is_empty()
+                        if CekAntrian is True:
+                            clear()
+                            Antrian.show_queue()
+                            print("\nPilih Opsi Fitur (Masukkan angka sesuai pilihan)")
+                            pass
+                        else:
+                            clear()
+                            IDPesanan, MakananPesanan = Antrian.dequeue()
+                            print(f"Pesanan Selesai: {IDPesanan}, Items: {MakananPesanan}\n")
+                            Antrian.show_queue()
+                            print("\nPilih Opsi Fitur (Masukkan angka sesuai pilihan)")
+                    elif input_Antrian == "2":
+                        clear()
+                        break
+                    else: 
+                        clear()
+                        Antrian.show_queue()
+                        print("\nInput Salah")
+                        print("Pilih Opsi Fitur (Masukkan angka sesuai pilihan)")
+
 
             if pilihan == "2":
                 clear()
@@ -445,7 +484,32 @@ def program_user():
                     break
         if pilihan in OpsiUser:
             if pilihan == "1":
-                pass
+                clear()
+                df = pd.read_csv(MenuMakanan)
+                pesanan = []
+                print(df.to_string(index=False))
+                print("\nPilih Opsi Fitur (Masukkan angka sesuai pilihan)")
+                while True:
+                    print("1. Tambah Pesanan")
+                    print("2. Pembayaran")
+                    print("3. Kembali\n")
+                    input_Transaksi = input("Input: ")
+                    if input_Transaksi == "1":
+                        pass
+                        
+                    elif input_Transaksi == "2":
+                        pass
+
+                    elif input_Transaksi == "3":
+                        clear()
+                        pesanan = []
+                        break
+                    else: 
+                        clear()
+                        df = pd.read_csv(MenuMakanan)
+                        print (df.to_string(index=False))
+                        print("\nInput Salah")
+                        print("Pilih Opsi Fitur (Masukkan angka sesuai pilihan)")
 
             if pilihan == "2":
                 clear()
@@ -469,5 +533,4 @@ def program_user():
                 else:
                     continue  
 
-Antrian = PriorityQueue()
 login()
