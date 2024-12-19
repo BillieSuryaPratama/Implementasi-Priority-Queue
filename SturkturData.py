@@ -373,7 +373,7 @@ def program_admin():
                         clear()
                         Antrian.show_queue()
                         print("\nInput Salah")
-                        print("Pilih Opsi Fitur (Masukkan angka sesuai pilihan)")
+                        print("\nPilih Opsi Fitur (Masukkan angka sesuai pilihan)")
 
 
             if pilihan == "2":
@@ -574,7 +574,7 @@ def program_user():
                                 if input_Pembayaran == "2":
                                     clear()
                                     Prioritas = 1
-                                    Harga = 5000
+                                    Harga = 10000
                                     print("Pesanan Saat ini: ")
                                     print(pesanan)
                                     for items in pesanan:
