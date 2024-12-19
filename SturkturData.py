@@ -347,6 +347,9 @@ def program_admin():
 
             if pilihan == "1":
                 clear()
+                print("Pesanan Saat ini:")
+                ID_Pesanan, Makanan = Antrian.peek()
+                print(f"{ID_Pesanan}, {Makanan}\n")
                 Antrian.show_queue()
                 print("\nPilih Opsi Fitur (Masukkan angka sesuai pilihan)")
                 while True:
@@ -357,6 +360,9 @@ def program_admin():
                         CekAntrian = Antrian.is_empty()
                         if CekAntrian is True:
                             clear()
+                            print("Pesanan Saat ini:")
+                            ID_Pesanan, Makanan = Antrian.peek()
+                            print(f"{ID_Pesanan}, {Makanan}\n")
                             Antrian.show_queue()
                             print("\nPilih Opsi Fitur (Masukkan angka sesuai pilihan)")
                             pass
@@ -364,6 +370,9 @@ def program_admin():
                             clear()
                             IDPesanan, MakananPesanan = Antrian.dequeue()
                             print(f"Pesanan Selesai: {IDPesanan}, Items: {MakananPesanan}\n")
+                            print("Pesanan Saat ini:")
+                            ID_Pesanan, Makanan = Antrian.peek()
+                            print(f"{ID_Pesanan}, {Makanan}\n")
                             Antrian.show_queue()
                             print("\nPilih Opsi Fitur (Masukkan angka sesuai pilihan)")
                     elif input_Antrian == "2":
@@ -371,6 +380,9 @@ def program_admin():
                         break
                     else: 
                         clear()
+                        print("Pesanan Saat ini:")
+                        ID_Pesanan, Makanan = Antrian.peek()
+                        print(f"{ID_Pesanan}, {Makanan}\n")
                         Antrian.show_queue()
                         print("\nInput Salah")
                         print("\nPilih Opsi Fitur (Masukkan angka sesuai pilihan)")
