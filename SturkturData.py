@@ -532,7 +532,7 @@ def program_user():
                                 print(pesanan)
                                 print("\nPilih Opsi Pelayanan:")
                                 print("1. Pelayanan Reguler")   
-                                print("2. Pelayanan Ekspres (Tambahan biaya Rp.5000)")
+                                print("2. Pelayanan Ekspres (Tambahan biaya Rp10.000)")
                                 print("3. Kembali\n")
                                 input_Pembayaran = input("Input: ")
                                 if input_Pembayaran == "1":
